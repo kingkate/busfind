@@ -1,0 +1,30 @@
+server: 
+    port: 8088
+    tomcat: 
+        uri-encoding: UTF-8
+mybatis:
+    mapper-locations: classpath*:mapper/*.xml
+    type-aliases-package: springboot.mybatis.model
+    type-handlers-package: springboot.mybatis.typehandler
+    configuration:
+        map-underscore-to-camel-case: true
+        default-fetch-size: 100
+
+
+spring:
+    datasource:
+#        url: jdbc:mysql://localhost:8900/bus?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+#        username: root
+#        password: 2009kingKATE$
+        url: jdbc:mysql://111.67.206.137:8900/bus?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: bususer
+        password: 2009kingKATE$
+#        url: jdbc:mysql://localhost:3306/bus?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+#        username: root
+#        password: root
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    http:
+        encoding:
+            charset: UTF-8
+            force: true
+            enabled: true

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingkate.busfind.mapper.BusLineBeanMapper">
+  <resultMap id="BaseResultMap" type="com.kingkate.busfind.bean.BusLineBean">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="bus_name" jdbcType="VARCHAR" property="busName" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="c_t" jdbcType="TIMESTAMP" property="cT" />
+    <result column="u_t" jdbcType="TIMESTAMP" property="uT" />
+    <result column="c_u" jdbcType="VARCHAR" property="cU" />
+    <result column="u_u" jdbcType="VARCHAR" property="uU" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, bus_name, province, c_t, u_t, c_u, u_u, is_deleted
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_bus_line
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByBusName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_bus_line
+    where bus_name = #{busName,jdbcType=VARCHAR} limit 1
+  </select>
+  
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_bus_line
+  </select>
+  
+  <select id="selectBusLine" parameterType="com.kingkate.busfind.bean.BusLineBean" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_bus_line where 1=1
+    <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="busName != null">
+        and bus_name = #{busName,jdbcType=VARCHAR}
+      </if>
+      <if test="province != null">
+        and province = #{province,jdbcType=VARCHAR}
+      </if>
+        and is_deleted is null
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_bus_line
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kingkate.busfind.bean.BusLineBean">
+    insert into t_bus_line (id, bus_name, province, 
+      c_t, u_t, c_u, u_u, 
+      is_deleted)
+    values (#{id,jdbcType=INTEGER}, #{busName,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{cT,jdbcType=TIMESTAMP}, #{uT,jdbcType=TIMESTAMP}, #{cU,jdbcType=VARCHAR}, #{uU,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kingkate.busfind.bean.BusLineBean">
+    insert into t_bus_line
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="busName != null">
+        bus_name,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="cT != null">
+        c_t,
+      </if>
+      <if test="uT != null">
+        u_t,
+      </if>
+      <if test="cU != null">
+        c_u,
+      </if>
+      <if test="uU != null">
+        u_u,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="busName != null">
+        #{busName,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="cT != null">
+        #{cT,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uT != null">
+        #{uT,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cU != null">
+        #{cU,jdbcType=VARCHAR},
+      </if>
+      <if test="uU != null">
+        #{uU,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingkate.busfind.bean.BusLineBean">
+    update t_bus_line
+    <set>
+      <if test="busName != null">
+        bus_name = #{busName,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="cT != null">
+        c_t = #{cT,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uT != null">
+        u_t = #{uT,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cU != null">
+        c_u = #{cU,jdbcType=VARCHAR},
+      </if>
+      <if test="uU != null">
+        u_u = #{uU,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kingkate.busfind.bean.BusLineBean">
+    update t_bus_line
+    set bus_name = #{busName,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      c_t = #{cT,jdbcType=TIMESTAMP},
+      u_t = #{uT,jdbcType=TIMESTAMP},
+      c_u = #{cU,jdbcType=VARCHAR},
+      u_u = #{uU,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
