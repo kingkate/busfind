@@ -21,12 +21,14 @@ public class BeijingQuery implements BaseQuery {
 
 	private final static String BASE_URL = "http://www.bjbus.com";
 	private final static String QUERY_IN_TIME_BUS_URL = "/home/ajax_rtbus_data.php";
-	private final static String BUS_LINE_URL = "/home/fun_rtbus.php";
+	private final static String BUS_LINE_URL = "/home/fun_rtbus.php?uSec=00000160&uSub=00000162";
 	private final static String QUERY_IN_TIME_BUS_ACT="busTime";
+	private final static String QUERY_BUS_DIR_ACT="getLineDirOption";
+	private final static String QUERY_BUS_STOP_ACT="getDirStationOption";
 	
 	
 	public List<BusLineBean> queryBusLine() {
-		String url = BASE_URL + BUS_LINE_URL + "?uSec=00000160&uSub=00000162";
+		String url = BASE_URL + BUS_LINE_URL;
 		String result = HttpUtil.get(url, null);
 		try {
 			System.out.println(new String(result.getBytes("utf-8")));
@@ -77,7 +79,7 @@ public class BeijingQuery implements BaseQuery {
 	@Override
 	public List<BusDirBean> queryBusDir(QueryInTimeBusReq queryInTimeBusReq) {
 		List<BusDirBean> busDirBeanList = new ArrayList<>();
-		String url = BASE_URL + QUERY_IN_TIME_BUS_URL + "?act=" + queryInTimeBusReq.getAct() +"&selBLine=" 
+		String url = BASE_URL + QUERY_IN_TIME_BUS_URL + "?act=" + QUERY_BUS_DIR_ACT +"&selBLine=" 
 				+ queryInTimeBusReq.getSelBLine();
 		String result = HttpUtil.get(url, null);
 		Parse parser = new ParseBeijing();
@@ -90,7 +92,7 @@ public class BeijingQuery implements BaseQuery {
 	@Override
 	public List<BusStopBean> queryBusStop(QueryInTimeBusReq queryInTimeBusReq) {
 		List<BusStopBean> busStopBeanList = new ArrayList<>();
-		String url = BASE_URL + QUERY_IN_TIME_BUS_URL + "?act=" + queryInTimeBusReq.getAct() +"&selBLine=" 
+		String url = BASE_URL + QUERY_IN_TIME_BUS_URL + "?act=" + QUERY_BUS_STOP_ACT +"&selBLine=" 
 				+ queryInTimeBusReq.getSelBLine() + "&selBDir=" + queryInTimeBusReq.getSelBDir();
 		String result = HttpUtil.get(url, null);
 		Parse parser = new ParseBeijing();

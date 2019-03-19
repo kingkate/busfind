@@ -3,6 +3,7 @@ package com.kingkate.busfind.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.kingkate.busfind.bean.BusLineBean;
 
@@ -20,9 +21,9 @@ public interface BusLineBeanMapper {
 
 	int updateByPrimaryKey(BusLineBean record);
 	
-	BusLineBean selectByBusName(String busName);
+	BusLineBean selectByBusName(@Param("busName")String busName, @Param("province")String province);
 
-	List<BusLineBean> selectAll();
+	List<BusLineBean> selectAll(String province);
 
 	List<BusLineBean> selectBusLine(BusLineBean busLineBean);
 

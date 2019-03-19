@@ -16,12 +16,12 @@ spring:
 #        url: jdbc:mysql://localhost:8900/bus?useSSL=false&useUnicode=true&characterEncoding=UTF-8
 #        username: root
 #        password: 2009kingKATE$
-        url: jdbc:mysql://111.67.206.137:8900/bus?useSSL=false&useUnicode=true&characterEncoding=UTF-8
-        username: bususer
-        password: 2009kingKATE$
-#        url: jdbc:mysql://localhost:3306/bus?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
-#        username: root
-#        password: root
+#        url: jdbc:mysql://111.67.206.137:8900/bus?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+#        username: bususer
+#        password: 2009kingKATE$
+        url: jdbc:mysql://localhost:3306/bus?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+        username: root
+        password: root
         driver-class-name: com.mysql.cj.jdbc.Driver
     http:
         encoding:

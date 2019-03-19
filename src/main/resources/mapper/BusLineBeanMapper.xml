@@ -3,6 +3,7 @@
 <mapper namespace="com.kingkate.busfind.mapper.BusLineBeanMapper">
   <resultMap id="BaseResultMap" type="com.kingkate.busfind.bean.BusLineBean">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="bus_alias" jdbcType="VARCHAR" property="busAlias" />    
     <result column="bus_name" jdbcType="VARCHAR" property="busName" />
     <result column="province" jdbcType="VARCHAR" property="province" />
     <result column="c_t" jdbcType="TIMESTAMP" property="cT" />
@@ -12,7 +13,7 @@
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, bus_name, province, c_t, u_t, c_u, u_u, is_deleted
+    id,bus_alias, bus_name, province, c_t, u_t, c_u, u_u, is_deleted
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -25,13 +26,14 @@
     select 
     <include refid="Base_Column_List" />
     from t_bus_line
-    where bus_name = #{busName,jdbcType=VARCHAR} limit 1
+    where bus_name = #{busName,jdbcType=VARCHAR} and province = #{province,jdbcType=VARCHAR} 
+    and is_deleted = 0 limit 1
   </select>
   
   <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_bus_line
+    from t_bus_line where province = #{province,jdbcType=VARCHAR} and is_deleted = 0
   </select>
   
   <select id="selectBusLine" parameterType="com.kingkate.busfind.bean.BusLineBean" resultMap="BaseResultMap">
@@ -47,7 +49,7 @@
       <if test="province != null">
         and province = #{province,jdbcType=VARCHAR}
       </if>
-        and is_deleted is null
+        and is_deleted = 0
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -55,10 +57,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.kingkate.busfind.bean.BusLineBean">
-    insert into t_bus_line (id, bus_name, province, 
+    insert into t_bus_line (id,bus_alias,  bus_name, province, 
       c_t, u_t, c_u, u_u, 
       is_deleted)
-    values (#{id,jdbcType=INTEGER}, #{busName,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER},#{busAlias,jdbcType=VARCHAR}, #{busName,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{cT,jdbcType=TIMESTAMP}, #{uT,jdbcType=TIMESTAMP}, #{cU,jdbcType=VARCHAR}, #{uU,jdbcType=VARCHAR}, 
       #{isDeleted,jdbcType=BIT})
   </insert>
@@ -67,6 +69,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="busAlias != null">
+        bus_alias,
       </if>
       <if test="busName != null">
         bus_name,
@@ -94,6 +99,9 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="busAlias != null">
+        #{busAlias,jdbcType=INTEGER},
+      </if>
       <if test="busName != null">
         #{busName,jdbcType=VARCHAR},
       </if>
@@ -120,6 +128,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kingkate.busfind.bean.BusLineBean">
     update t_bus_line
     <set>
+     <if test="busAlias != null">
+        bus_alias = #{busAlias,jdbcType=VARCHAR},
+      </if>
       <if test="busName != null">
         bus_name = #{busName,jdbcType=VARCHAR},
       </if>
@@ -146,7 +157,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kingkate.busfind.bean.BusLineBean">
     update t_bus_line
-    set bus_name = #{busName,jdbcType=VARCHAR},
+    set bus_alias = #{busAlias,jdbcType=VARCHAR},
+      bus_name = #{busName,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
       c_t = #{cT,jdbcType=TIMESTAMP},
       u_t = #{uT,jdbcType=TIMESTAMP},

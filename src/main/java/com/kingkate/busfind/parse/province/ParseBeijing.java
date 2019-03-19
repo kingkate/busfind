@@ -10,7 +10,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.alibaba.fastjson.JSON;
-import com.kingkate.busfind.bean.BusStopBean;
 import com.kingkate.busfind.bean.BusDirBean;
 import com.kingkate.busfind.bean.BusLineBean;
 import com.kingkate.busfind.bean.BusStopBean;
@@ -103,9 +102,11 @@ public class ParseBeijing implements Parse {
 			BusLineBean line = new BusLineBean();
 			line.setProvince("北京");
 			line.setBusName(option.text());
+			line.setBusAlias(option.text());
 			line.setcT(Calendar.getInstance().getTime());
 			line.setcU("");
 			line.setuU("");
+			line.setIsDeleted(false);
 			busLineList.add(line);
 		}
 		return busLineList;
@@ -124,6 +125,7 @@ public class ParseBeijing implements Parse {
 			dir.setcT(Calendar.getInstance().getTime());
 			dir.setcU("");
 			dir.setuU("");
+			dir.setIsDeleted(false);
 			busDirBeanList.add(dir);
 		}
 		return busDirBeanList;
@@ -142,6 +144,7 @@ public class ParseBeijing implements Parse {
 			stopBean.setcT(Calendar.getInstance().getTime());
 			stopBean.setcU("");
 			stopBean.setuU("");
+			stopBean.setIsDeleted(false);
 			busStopBeanList.add(stopBean);
 		}
 		return busStopBeanList;

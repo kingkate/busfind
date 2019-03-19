@@ -30,6 +30,9 @@ public class BusLineBean {
 
 	@ApiModelProperty(hidden = true)
 	private Boolean isDeleted;
+	
+	@ApiModelProperty(hidden = true)
+	private String busAlias;
 
 	public Integer getId() {
 		return id;
@@ -93,5 +96,13 @@ public class BusLineBean {
 
 	public void setIsDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	public String getBusAlias() {
+		return busAlias;
+	}
+
+	public void setBusAlias(String busAlias) {
+		this.busAlias = busAlias;
 	}
 }

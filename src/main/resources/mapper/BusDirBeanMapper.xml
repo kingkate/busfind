@@ -20,24 +20,25 @@
     select 
     <include refid="Base_Column_List" />
     from t_bus_dir
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and is_deleted = 0
   </select>
   <select id="selectByBusLineId" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_bus_dir
-    where bus_line_id = #{busLineId,jdbcType=INTEGER} and value = #{value,jdbcType=VARCHAR} limit 1
+    where bus_line_id = #{busLineId,jdbcType=INTEGER} and value = #{value,jdbcType=VARCHAR}
+    and is_deleted = 0 limit 1
   </select>
   <select id="selectByBusLine" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_bus_dir
-    where bus_line_id = #{busLineId,jdbcType=INTEGER}
+    where bus_line_id = #{busLineId,jdbcType=INTEGER} and is_deleted = 0
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_bus_dir
+    from t_bus_dir where 1=1 and is_deleted = 0
   </select>
   <select id="selectBusDir" parameterType="com.kingkate.busfind.bean.BusDirBean" resultMap="BaseResultMap">
     select 
@@ -70,7 +71,7 @@
       <if test="value != null">
         and value = #{value,jdbcType=VARCHAR}
       </if>
-      and is_deleted is null
+      and is_deleted = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_bus_dir

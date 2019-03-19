@@ -24,7 +24,7 @@
     select 
     <include refid="Base_Column_List" />
     from t_bus_stop
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and is_deleted = 0
   </select>
   <select id="selectStop" parameterType="com.kingkate.busfind.bean.BusStopBean" resultMap="BaseResultMap">
     select 
@@ -40,6 +40,19 @@
       <if test="busDirId != null">
         and bus_dir_id = #{busDirId,jdbcType=INTEGER}
       </if>
+      <if test="busLineName != null">
+        bus_line_name = #{busLineName,jdbcType=VARCHAR}
+      </if>
+      <if test="busDirName != null">
+        bus_dir_name = #{busDirName,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="stopId != null">
+        stop_id = #{stopId,jdbcType=INTEGER}
+      </if>
+      and is_deleted = 0
       limit 1
   </select>
   
@@ -57,6 +70,19 @@
       <if test="busDirId != null">
         and bus_dir_id = #{busDirId,jdbcType=INTEGER}
       </if>
+      <if test="busLineName != null">
+        bus_line_name = #{busLineName,jdbcType=VARCHAR}
+      </if>
+      <if test="busDirName != null">
+        bus_dir_name = #{busDirName,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="stopId != null">
+        stop_id = #{stopId,jdbcType=INTEGER}
+      </if>
+      and is_deleted = 0
   </select>
   
   
