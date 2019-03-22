@@ -1,7 +1,7 @@
 package com.kingkate.busfind.constants;
 
 public enum BUS_STOP_STATUS {
-	BUSC("0"),BUSS("1");
+	BUSC("0"),BUSS("1"),BUSW("-1");
 	
 	private String value;
 	

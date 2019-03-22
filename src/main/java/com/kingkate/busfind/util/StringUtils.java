@@ -3,7 +3,7 @@ package com.kingkate.busfind.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StringUtils {
+public class StringUtils extends com.alibaba.druid.util.StringUtils {
 	public static String unicodeToString(String str) {
 
         Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
@@ -15,4 +15,5 @@ public class StringUtils {
         }
         return str;
     }
+	
 }

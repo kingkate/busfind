@@ -1,5 +1,6 @@
 package com.kingkate.busfind.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import com.kingkate.busfind.mapper.BusDirBeanMapper;
 import com.kingkate.busfind.mapper.BusLineBeanMapper;
 import com.kingkate.busfind.mapper.BusStopBeanMapper;
 import com.kingkate.busfind.query.BaseQuery;
-import com.kingkate.busfind.query.province.BeijingQuery;
 import com.kingkate.busfind.service.InTimeBusService;
 
 @Service
@@ -34,25 +34,36 @@ public class InTimeBusServiceImpl implements InTimeBusService {
 	@Override
 	public InTimeBusInfoRes getInTimeBusInfo(QueryInTimeBusReq queryInTimeBusReq) {
 		InTimeBusInfoRes inTimeBusInfoRes = new InTimeBusInfoRes();
+		String province = determineProvince(queryInTimeBusReq);
 		try {
-			if(null == queryInTimeBusReq) {
-				return inTimeBusInfoRes;
-			}
 			BaseQuery query = null;
 			if(!assembleInTimeBusReq(queryInTimeBusReq)) {
 				return inTimeBusInfoRes;
 			}
-			//默认查询北京
-			if(null == queryInTimeBusReq.getProvince()) {
-				query = new BeijingQuery();
-			}else {
-				query = (BaseQuery) BUS_PROVINCE_CLASS.getQueryClassByProvince(queryInTimeBusReq.getProvince()).newInstance();
+			query = (BaseQuery) BUS_PROVINCE_CLASS.getQueryClassByProvince(province).newInstance();
+			if(null == query) {
+				System.out.println("请求参数不正确！！");
+				return inTimeBusInfoRes;
 			}
-			inTimeBusInfoRes = query.query(queryInTimeBusReq);
+			List<BusStopBean> list = getBusStopList(queryInTimeBusReq);
+			inTimeBusInfoRes = query.query(queryInTimeBusReq,list);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return inTimeBusInfoRes;
+	}
+
+	private List<BusStopBean> getBusStopList(QueryInTimeBusReq queryInTimeBusReq) {
+		BusStopBean busStopBean = new BusStopBean();
+		busStopBean.setBusLineId(queryInTimeBusReq.getBusLineId());
+		busStopBean.setBusDirId(queryInTimeBusReq.getBusDirId());
+		List<BusStopBean> list = busStopBeanMapper.selectBusStop(busStopBean);
+		return list;
+	}
+
+	private String determineProvince(QueryInTimeBusReq queryInTimeBusReq) {
+		return null == queryInTimeBusReq.getProvince() ? BUS_PROVINCE_CLASS.BEIJING.getProvince():queryInTimeBusReq.getProvince();
 	}
 
 	private boolean assembleInTimeBusReq(QueryInTimeBusReq queryInTimeBusReq) {
@@ -77,8 +88,7 @@ public class InTimeBusServiceImpl implements InTimeBusService {
 	@Override
 	public void saveBusLine(QueryInTimeBusReq queryInTimeBusReq) {
 		BaseQuery query = null;
-		//默认查询北京
-		String province = null == queryInTimeBusReq.getProvince() ? "北京":queryInTimeBusReq.getProvince();
+		String province = determineProvince(queryInTimeBusReq);
 		try {
 			
 			query = (BaseQuery) BUS_PROVINCE_CLASS.getQueryClassByProvince(province).newInstance();
@@ -87,6 +97,7 @@ public class InTimeBusServiceImpl implements InTimeBusService {
 				return;
 			}
 			List<BusLineBean> busLineList = query.queryBusLine();
+//			List<BusLineBean> busLineList = new ArrayList<>();
 			if(null != busLineList) {
 				saveBusLine(province, busLineList);
 				busLineList = busLineBeanMapper.selectAll(province);
@@ -112,6 +123,7 @@ public class InTimeBusServiceImpl implements InTimeBusService {
 			}
 			for(BusDirBean busDirBean : busDirList) {
 				queryInTimeBusReq.setSelBDir(busDirBean.getValue());
+				queryInTimeBusReq.setSelBLine(lineBean.getBusAlias());
 				List<BusStopBean> busStopBeanList = query.queryBusStop(queryInTimeBusReq);
 				System.out.println(JSON.toJSONString(busStopBeanList));
 				if(null == busStopBeanList || busStopBeanList.isEmpty()) {

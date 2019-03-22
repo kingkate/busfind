@@ -43,6 +43,8 @@ public class QueryInTimeBusReq {
 	public void setBusDirId(Integer busDirId) {
 		this.busDirId = busDirId;
 	}
+	
+	
 	public Integer getBusStopId() {
 		return busStopId;
 	}

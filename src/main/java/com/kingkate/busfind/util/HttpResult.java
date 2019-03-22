@@ -23,7 +23,7 @@ public class HttpResult implements Serializable {
 	
 	public static HttpResult success(Object data) {
 		HttpResult result = new HttpResult();
-		result.setData(JSON.toJSONString(data));
+		result.setData(data);
 		result.setTime(System.currentTimeMillis());
 		result.setError(new Error());
 		return result;

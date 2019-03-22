@@ -10,7 +10,7 @@ import com.kingkate.busfind.dto.response.InTimeBusInfoRes;
 
 public interface BaseQuery {
 	
-	public InTimeBusInfoRes query(QueryInTimeBusReq queryInTimeBusReq);
+	public InTimeBusInfoRes query(QueryInTimeBusReq queryInTimeBusReq, List<BusStopBean> list);
 	public List<BusLineBean> queryBusLine();
 	public List<BusDirBean> queryBusDir(QueryInTimeBusReq queryInTimeBusReq);
 	public List<BusStopBean> queryBusStop(QueryInTimeBusReq queryInTimeBusReq);

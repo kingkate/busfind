@@ -30,7 +30,15 @@ public class BusStopBean {
     private String name;
 
 	@ApiModelProperty(hidden = true)
-    private Integer stopId;
+    private String stopId;
+
+	public String getStopId() {
+		return stopId;
+	}
+
+	public void setStopId(String stopId) {
+		this.stopId = stopId;
+	}
 
 	@ApiModelProperty(hidden = true)
     private Date cT;
@@ -101,14 +109,6 @@ public class BusStopBean {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public Integer getStopId() {
-        return stopId;
-    }
-
-    public void setStopId(Integer stopId) {
-        this.stopId = stopId;
     }
 
     public Date getcT() {

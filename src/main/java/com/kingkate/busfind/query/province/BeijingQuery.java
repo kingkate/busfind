@@ -46,7 +46,7 @@ public class BeijingQuery implements BaseQuery {
 	
 	
 	@Override
-	public InTimeBusInfoRes query(QueryInTimeBusReq queryInTimeBusReq) {
+	public InTimeBusInfoRes query(QueryInTimeBusReq queryInTimeBusReq,List<BusStopBean> list) {
 		InTimeBusInfoRes inTimeBusInfoRes = new InTimeBusInfoRes();
 		String data = queryData(queryInTimeBusReq);
 		if(null == data || "".endsWith(data)) {

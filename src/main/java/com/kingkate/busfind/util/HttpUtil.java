@@ -35,8 +35,8 @@ public class HttpUtil {
 	private static final int DEFAULT_CONNECT_TIMEOUT = 30000;
 
 	private static CloseableHttpClient httpClient;
-	private int socketTimeout = DEFAULT_SOCKET_TIMEOUT;
-	private int connectTimeout = DEFAULT_CONNECT_TIMEOUT;
+	private static int socketTimeout = DEFAULT_SOCKET_TIMEOUT;
+	private static int connectTimeout = DEFAULT_CONNECT_TIMEOUT;
 
 
 	private static Object obj = new Object();
@@ -81,7 +81,7 @@ public class HttpUtil {
 		return null;
 	}
 	
-	public String post(String url, Map<String, String> map) {
+	public static String post(String url, Map<String, String> map) {
 		BasicNameValuePair[] params = new BasicNameValuePair[map.size()];
 		int i = 0;
 		for (Entry<String, String> entry : map.entrySet()) {
@@ -91,7 +91,7 @@ public class HttpUtil {
 		return post(url, params);
 	}
 	
-	public String post(String url, Map<String, String> map,Header[] headers) {
+	public static String post(String url, Map<String, String> map,Header[] headers) {
 		BasicNameValuePair[] params = new BasicNameValuePair[map.size()];
 		int i = 0;
 		for (Entry<String, String> entry : map.entrySet()) {
@@ -101,7 +101,7 @@ public class HttpUtil {
 		return post(url,headers, params);
 	}
 	
-	public String post(String url, BasicNameValuePair... params) {
+	public static String post(String url, BasicNameValuePair... params) {
 		HttpPost post = getHttpPost(url);
 		try {
 			if (params.length > 0) {
@@ -119,7 +119,7 @@ public class HttpUtil {
 		}
 	}
 	
-	public String post(String url,Header[] headers, BasicNameValuePair... params) {
+	public static String post(String url,Header[] headers, BasicNameValuePair... params) {
 		HttpPost post = getHttpPost(url,headers);
 		try {
 			if (params.length > 0) {
@@ -137,11 +137,11 @@ public class HttpUtil {
 		}
 	}
 	
-	public String sendHttpRequest(HttpUriRequest request, String key) {
+	public static String sendHttpRequest(HttpUriRequest request, String key) {
 		CloseableHttpResponse response = null;
 		String strs = null;
 		try {
-			response = httpClient.execute(request);
+			response = getHttpClient().execute(request);
 			// 正确返回200
 			if (response.getStatusLine().getStatusCode() == 200) {
 				HttpEntity entity = response.getEntity();
@@ -150,7 +150,7 @@ public class HttpUtil {
 				
 			} else {
 				throw new IOException("返回HTTP状态码异常："
-						+ response.getStatusLine().getStatusCode());
+						+ response.getStatusLine().getStatusCode() + "\r\n" + response.getStatusLine().getReasonPhrase() + "\r\n");
 			}
 			return strs;
 		} catch (ClientProtocolException e) {
@@ -176,7 +176,7 @@ public class HttpUtil {
 		}
 	}
 	
-	private HttpPost getHttpPost(String url) {
+	private static HttpPost getHttpPost(String url) {
 		HttpPost post = new HttpPost(url);
 		post.setHeader("charset", "UTF-8");
 		RequestConfig config = RequestConfig.custom()
@@ -187,7 +187,7 @@ public class HttpUtil {
 	}
 	
 	
-	private HttpPost getHttpPost(String url,Header[] headers) {
+	private static HttpPost getHttpPost(String url,Header[] headers) {
 		HttpPost post = new HttpPost(url);
 		if(null != headers&&headers.length>0){
 			for(Header header : headers){
@@ -207,7 +207,7 @@ public class HttpUtil {
 		getHttpClient();
 	}
 
-	public static void getHttpClient() {
+	public static CloseableHttpClient getHttpClient() {
 		if (null == httpClient) {
 			synchronized (obj) {
 				if (null == httpClient) {
@@ -220,6 +220,7 @@ public class HttpUtil {
 				}
 			}
 		}
+		return httpClient;
 	}
 
 	

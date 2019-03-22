@@ -140,7 +140,7 @@ public class ParseBeijing implements Parse {
 			Element option = a.get(i);
 			BusStopBean stopBean = new BusStopBean();
 			stopBean.setName(option.text());
-			stopBean.setStopId(Integer.valueOf(option.attr("value")));
+			stopBean.setStopId(option.attr("value"));
 			stopBean.setcT(Calendar.getInstance().getTime());
 			stopBean.setcU("");
 			stopBean.setuU("");

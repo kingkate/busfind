@@ -9,7 +9,7 @@
     <result column="bus_dir_id" jdbcType="INTEGER" property="busDirId" />
     <result column="bus_dir_name" jdbcType="VARCHAR" property="busDirName" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="stop_id" jdbcType="INTEGER" property="stopId" />
+    <result column="stop_id" jdbcType="VARCHAR" property="stopId" />
     <result column="c_t" jdbcType="TIMESTAMP" property="cT" />
     <result column="u_t" jdbcType="TIMESTAMP" property="uT" />
     <result column="c_u" jdbcType="VARCHAR" property="cU" />
@@ -32,7 +32,7 @@
     from t_bus_stop
     where 1=1
       <if test="stopId != null">
-        and stop_id = #{stopId,jdbcType=INTEGER}
+        and stop_id = #{stopId,jdbcType=VARCHAR}
       </if>
       <if test="busLineId != null">
         and bus_line_id = #{busLineId,jdbcType=INTEGER}
@@ -50,7 +50,7 @@
         and name = #{name,jdbcType=VARCHAR}
       </if>
       <if test="stopId != null">
-        and stop_id = #{stopId,jdbcType=INTEGER}
+        and stop_id = #{stopId,jdbcType=VARCHAR}
       </if>
       and is_deleted = 0
       limit 1
@@ -62,7 +62,7 @@
     from t_bus_stop
     where 1=1
       <if test="stopId != null">
-        and stop_id = #{stopId,jdbcType=INTEGER}
+        and stop_id = #{stopId,jdbcType=VARCHAR}
       </if>
       <if test="busLineId != null">
         and bus_line_id = #{busLineId,jdbcType=INTEGER}
@@ -80,7 +80,7 @@
         and name = #{name,jdbcType=VARCHAR}
       </if>
       <if test="stopId != null">
-        and stop_id = #{stopId,jdbcType=INTEGER}
+        and stop_id = #{stopId,jdbcType=VARCHAR}
       </if>
       and is_deleted = 0
   </select>
@@ -98,7 +98,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{busLineId,jdbcType=INTEGER}, 
       #{busLineName,jdbcType=VARCHAR}, #{busDirId,jdbcType=INTEGER}, #{busDirName,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{stopId,jdbcType=INTEGER}, #{cT,jdbcType=TIMESTAMP}, 
+      #{name,jdbcType=VARCHAR}, #{stopId,jdbcType=VARCHAR}, #{cT,jdbcType=TIMESTAMP}, 
       #{uT,jdbcType=TIMESTAMP}, #{cU,jdbcType=VARCHAR}, #{uU,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}
       )
   </insert>
@@ -168,7 +168,7 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="stopId != null">
-        #{stopId,jdbcType=INTEGER},
+        #{stopId,jdbcType=VARCHAR},
       </if>
       <if test="cT != null">
         #{cT,jdbcType=TIMESTAMP},
@@ -209,7 +209,7 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="stopId != null">
-        stop_id = #{stopId,jdbcType=INTEGER},
+        stop_id = #{stopId,jdbcType=VARCHAR},
       </if>
       <if test="cT != null">
         c_t = #{cT,jdbcType=TIMESTAMP},
@@ -237,7 +237,7 @@
       bus_dir_id = #{busDirId,jdbcType=INTEGER},
       bus_dir_name = #{busDirName,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      stop_id = #{stopId,jdbcType=INTEGER},
+      stop_id = #{stopId,jdbcType=VARCHAR},
       c_t = #{cT,jdbcType=TIMESTAMP},
       u_t = #{uT,jdbcType=TIMESTAMP},
       c_u = #{cU,jdbcType=VARCHAR},
