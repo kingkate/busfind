@@ -33,31 +33,20 @@ public class LogAspect {
         // 记录下请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        Object retVal;
+        Object retVal = null;
         try {
             retVal = joinPoint.proceed();
         } catch (Throwable throwable) {
-            //响应数据执行异常时输出
-            log.info("请求地址: " + request.getRequestURL().toString());
-            log.info("请求方式: " + request.getMethod());
-            log.info("请求IP: " + request.getRemoteAddr());
-            log.info("请求方法: " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-            log.info("请求参数: " + JSON.toJSONString(joinPoint.getArgs()));
+            throw throwable;
+        }finally {
+            // 记录下响应内容
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("请求地址: " + request.getRequestURL().toString()).append(" === 请求方式: " + request.getMethod()).append(" === 请求IP: " + request.getRemoteAddr()).append(" === 请求方法: " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName()).append(" === 请求参数: " + JSON.toJSONString(joinPoint.getArgs()));
             //结束计时
             stopWatch.stop();
-            log.info("执行时间: ms " + stopWatch.getTime());
-            throw throwable;
+            stringBuilder.append(" === 执行时间: " + stopWatch.getTime()+" ms").append(" === 响应数据: " + JSON.toJSON(retVal));
+            log.info(stringBuilder.toString());
         }
-        // 记录下响应内容
-        log.info("请求地址: " + request.getRequestURL().toString());
-        log.info("请求方式: " + request.getMethod());
-        log.info("请求IP: " + request.getRemoteAddr());
-        log.info("请求方法: " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-        log.info("请求参数: " + JSON.toJSONString(joinPoint.getArgs()));
-        //结束计时
-        stopWatch.stop();
-        log.info("执行时间: " + stopWatch.getTime()+" ms");
-        log.info("响应数据: " + JSON.toJSON(retVal));
         return retVal;
     }
 
