@@ -28,6 +28,14 @@ public class HttpResult implements Serializable {
 		result.setError(new Error());
 		return result;
 	}
+
+	public static HttpResult success(Object data,Integer code,String msg) {
+		HttpResult result = new HttpResult();
+		result.setData(data);
+		result.setTime(System.currentTimeMillis());
+		result.setError(new Error(code,msg));
+		return result;
+	}
 	
 	public Object getData() {
 		return data;

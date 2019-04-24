@@ -1,5 +1,6 @@
 package com.kingkate.busfind.util;
 
+import com.kingkate.busfind.constants.ResultCodeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -24,6 +25,16 @@ public class Error {
 	
 	@ApiModelProperty(name = "msg",value = "异常说明",required = false,example = "")
 	private String msg = "";
-	
-	
+
+	public Error() {}
+
+	public Error(Integer code, String msg) {
+		this.code = code;
+		this.msg = msg;
+	}
+
+	public Error(ResultCodeEnum result) {
+		this.code = result.getCode();
+		this.msg = result.getMsg();
+	}
 }
